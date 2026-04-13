@@ -1,0 +1,33 @@
+﻿# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Frontend build
+frontend/dist/
+
+# Java / Maven
+**/target/
+*.class
+*.jar.original
+
+# Runtime data
+backend/data/
+backend/logs/
+
+# Temp
+*.tmp
+*.swp
