@@ -201,7 +201,14 @@ const SqlClient: React.FC = () => {
         sqlToExecute = initialSql.current;
     }
     
-    if (!sqlToExecute || !sqlToExecute.trim()) return message.warning('SQL is empty');
+    const normalizeSqlForExecution = (sql: string) => {
+      // Oracle 不接受尾部分号，统一移除中英文分号及其后空白
+      const trimmed = sql.trim();
+      return trimmed.replace(/[;；\s]+$/g, '').trim();
+    };
+
+    sqlToExecute = normalizeSqlForExecution(sqlToExecute);
+    if (!sqlToExecute) return message.warning('SQL is empty');
 
     setLoading(true);
     executeSql(selectedConn, sqlToExecute)
@@ -400,6 +407,7 @@ const SqlClient: React.FC = () => {
   useEffect(() => { tablesRef.current = tables; }, [tables]);
 
   const handleExport = () => {
+    // 导出仅使用当前 result，不会再次发 SQL 到后端执行
     if (!result || !result.rows || result.rows.length === 0) return message.warning('No data to export');
     
     const header = result.columns.join(',');
